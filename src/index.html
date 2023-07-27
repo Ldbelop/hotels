@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <title>Book It!</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="banner">Book It!</h1>
+            <section class="search">
+                <label for="countries" class="search-input">
+                    <span>
+                        Where
+                    </span>
+                    <select name="" id="countries" class="input">
+                        <option value="ALL" selected>All countries</option>
+                        <option value="A">Argentina</option>
+                        <option value="B">Brasil</option>
+                        <option value="C">Chile</option>
+                        <option value="U">Uruguay</option>
+                    </select>
+                </label>
+                <div class="date-select">
+                    <label for="from" class="search-input">
+                        <span>
+                            From
+                        </span>
+                        <input type="date" name="" id="from" class="input">
+                    </label>
+                    <label for="" class="search-input">
+                        <span>
+                            To
+                        </span>
+                        <input type="date" name="" id="" class="input">
+                    </label>
+                </div>
+                <label for="" class="search-input">
+                    <span>
+                        Prices
+                    </span>
+                    <select name="" id="" class="input">
+                        <option value="0">All Prices</option>
+                        <option value="1">$</option>
+                        <option value="2">$$</option>
+                        <option value="3">$$$</option>
+                        <option value="4">$$$$</option>
+                    </select>
+                </label>
+                <label for="" class="search-input">
+                    <span>
+                        Bedroom Sizes
+                    </span>
+                    <select name="" id="" class="input">
+                        <option value="A">All Sizes</option>
+                        <option value="S">Small</option>
+                        <option value="M">Medium</option>
+                        <option value="L">Large</option>
+                    </select>
+                </label>
+                <button class="search-button">Clear</button>
+            </section>
+        </div>
+    </header>
+    <main>
+        <section class="card-grid">
+        </section>
+    </main>
+    <script type="module" src="./js/index.js"></script>
+</body>
+</html>
