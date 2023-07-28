@@ -1,12 +1,29 @@
 import { getHotels } from "./getHotels.js";
 
 let arrayToRender;
+let arrayOfHotels;
 const cardGrid = document.querySelector(".card-grid");
 console.log(cardGrid)
+
+let countriesSelect = document.getElementById("countries");
+let fromInput = document.getElementById("from");
+let toInput = document.getElementById("to");
+let pricesSelect = document.getElementById("prices");
+let sizesSelect = document.getElementById("sizes");
+
+const addListeners = () => {
+    countriesSelect.addEventListener('change', (event) => {
+        const selectedCountry = event.target.value;
+        filterList(selectedCountry)
+    })
+}
+
+addListeners()
 
 const getHotelsWithAwait = async () => {
     arrayToRender = (await getHotels()).json()
     arrayToRender = await arrayToRender;
+    arrayOfHotels = await arrayToRender;
 }
 
 await getHotelsWithAwait()
@@ -99,10 +116,23 @@ const populateHotels = () => {
     });
 }
 
-populateHotels()
+const deleteHotels = () => {
+    const cardCollection = document.getElementsByClassName("hotelCard");
+    const cardGrid = document.querySelector(".card-grid")
 
-
-const createImageContainer = (imgSrc, countryName, country) => {
-
+    const cardCollectionLength = cardCollection.length;
+    for(let i = 0; i < cardCollectionLength; i++){
+        cardGrid.removeChild(cardCollection[0])
+    }
 }
 
+const filterList = (filter) => {
+    arrayToRender = arrayOfHotels.filter(hotel => {
+        return hotel.country == filter
+    })
+
+    deleteHotels()
+    populateHotels()
+}
+
+populateHotels()
