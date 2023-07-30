@@ -243,3 +243,7 @@ main{
     border-radius: 6px;
     border: none;
 }
+
+#grid-message{
+    display: none;
+}

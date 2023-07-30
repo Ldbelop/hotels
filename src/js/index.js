@@ -11,14 +11,7 @@ let toInput = document.getElementById("to");
 let pricesSelect = document.getElementById("prices");
 let sizesSelect = document.getElementById("sizes");
 
-const addListeners = () => {
-    countriesSelect.addEventListener('change', (event) => {
-        const selectedCountry = event.target.value;
-        filterList(selectedCountry)
-    })
-}
-
-addListeners()
+let filterArray = []
 
 const getHotelsWithAwait = async () => {
     arrayToRender = (await getHotels()).json()
@@ -27,6 +20,106 @@ const getHotelsWithAwait = async () => {
 }
 
 await getHotelsWithAwait()
+
+const runFilters = () => {
+    let arrayOfHotelsToModify = arrayOfHotels;
+    if(filterArray.length < 1){
+        arrayToRender = arrayOfHotels;
+        deleteHotels()
+        populateHotels()
+    }
+    filterArray.forEach(filter => {
+        arrayOfHotelsToModify = filterList(filter.value, filter.filterType, arrayOfHotelsToModify)
+    })
+    if(arrayOfHotelsToModify.length < 1){
+        document.getElementById("grid-message").style.display = 'block';
+    }
+}
+
+const applyFilters = (value, type) => {
+    let foundEqual = false;
+    filterArray.forEach((filter, index) => {
+        if(filter.filterType == type){
+            filterArray[index] = {
+                filterType : type,
+                value: value
+            }
+            foundEqual = true;
+        }
+    })
+    if(foundEqual == false){
+        filterArray.push({
+            filterType : type,
+                value: value
+        })
+    }
+
+    runFilters()
+}
+
+const addListeners = () => {
+    countriesSelect.addEventListener('change', (event) => {
+        if(event.target.value == 'ALL'){
+            filterArray.forEach((filter, index) => {
+                if(filter.filterType == "country"){
+                    filterArray.splice(index,1)
+                }
+            })
+            runFilters()
+        }
+        else{
+            const selectedCountry = event.target.value;
+            applyFilters(selectedCountry, "country")
+        }
+    })
+
+    fromInput.addEventListener('change', (event) => {
+        const selectedFromDate = event.target.value;
+        applyFilters(selectedFromDate, "fromDate")
+    })
+
+    toInput.addEventListener('change', (event) => {
+        const selectedToDate = event.target.value;
+        applyFilters(selectedToDate, "toDate")
+    })
+
+    pricesSelect.addEventListener('change', (event) => {
+        console.log("event.target.value == 'ALL'")
+        console.log(event.target.value == 'ALL')
+        console.log("event.target.value")
+        console.log(event.target.value)
+        console.log("---------")
+        if(event.target.value == 'ALL'){
+            filterArray.forEach((filter, index) => {
+                if(filter.filterType == 'price'){
+                    filterArray.splice(index,1)
+                }
+            })
+            runFilters()
+        }else{
+            const selectedPrice = event.target.value;
+            applyFilters(selectedPrice, "price")
+        }
+    })
+
+    sizesSelect.addEventListener('change', (event) => {
+        if(event.target.value == 'ALL'){
+            filterArray.forEach((filter, index) => {
+                if(filter.filterType == 'size'){
+                    filterArray.splice(index,1)
+                }
+            })
+            runFilters()
+        }
+        else{
+            const selectedSize = event.target.value;
+            applyFilters(selectedSize, "size")
+        }
+    })
+}
+
+
+addListeners()
 
 const checkPrice = (price) => {
     switch (price){
@@ -44,8 +137,6 @@ const checkPrice = (price) => {
             break;
     }
 }
-
-console.log(checkPrice(3))
 
 const fillCard = (hotel) => {
     const createdHotel = document.createElement('div');
@@ -96,7 +187,7 @@ const fillCard = (hotel) => {
 
     const hotelRooms = document.createElement("span")
     hotelRooms.classList.add("hotelRoomInfo_HotelRooms")
-    hotelRooms.innerText = `${hotel.rooms} habitaciones -`;
+    hotelRooms.innerHTML = `${hotel.rooms} rooms - &nbsp`;
     hotelRoomInfo.appendChild(hotelRooms)
 
     const hotelPrice = document.createElement("span")
@@ -126,13 +217,63 @@ const deleteHotels = () => {
     }
 }
 
-const filterList = (filter) => {
-    arrayToRender = arrayOfHotels.filter(hotel => {
-        return hotel.country == filter
-    })
+const filterList = (filter, type, startingArray) => {
+    switch(type){
+        case 'country':
+            startingArray = startingArray.filter(hotel => {
+                return hotel.country == filter
+            })
+            break
+        case 'fromDate':
+            startingArray = startingArray.filter(hotel => {
+                console.log("hotel.availabilityFrom")
+                console.log(hotel.availabilityFrom)
+                console.log("Date.parse(filter)")
+                console.log(Date.parse(filter)/1000.0)
+                console.log(hotel.availabilityFrom <= (Date.parse(filter)/1000.0))
+                return hotel.availabilityFrom <= (Date.parse(filter)/1000.0)
+            })
+            break
+        case 'toDate':
+            startingArray = startingArray.filter(hotel => {
+                console.log("hotel.availabilityTo")
+                console.log(hotel.availabilityTo)
+                console.log("Date.parse(filter)")
+                console.log(Date.parse(filter)/1000.0)
+                console.log(hotel.availabilityTo <= (Date.parse(filter)/1000.0))
+                return hotel.availabilityTo >= (Date.parse(filter)/1000.0)
+            })
+            break
+        case 'price':
+            startingArray = startingArray.filter(hotel => {
+                console.log(filter)
+                return hotel.price == filter
+            })
+            break
+        case 'size':
+            switch(filter){
+                case 'S':
+                    startingArray = startingArray.filter(hotel => {
+                        return hotel.rooms <= 10
+                    })
+                    break
+                case 'M':
+                    startingArray = startingArray.filter(hotel => {
+                        return hotel.rooms > 10 && hotel.rooms <= 20
+                    })
+                    break
+                case 'L':
+                    startingArray = startingArray.filter(hotel => {
+                        return hotel.rooms > 20
+                    })
+            }
+            break
+    }
 
+    arrayToRender = startingArray;
     deleteHotels()
     populateHotels()
+    return startingArray
 }
 
 populateHotels()
