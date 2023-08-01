@@ -10,8 +10,9 @@ let fromInput = document.getElementById("from");
 let toInput = document.getElementById("to");
 let pricesSelect = document.getElementById("prices");
 let sizesSelect = document.getElementById("sizes");
+let clearButton = document.getElementById("clear-button");
 
-let filterArray = []
+let filterArray = [];
 
 const getHotelsWithAwait = async () => {
     arrayToRender = (await getHotels()).json()
@@ -20,6 +21,35 @@ const getHotelsWithAwait = async () => {
 }
 
 await getHotelsWithAwait()
+
+const changeText = (hotelsArray) => {
+    const location = document.getElementById("hotels-location")
+    const number = document.getElementById("hotels-number")
+    const noHotelsMessage = document.getElementById("no-hotels")
+    const checkHotelsMessage = document.getElementById("check-hotels")
+    let foundCountry = filterArray.find(filter => {
+        return filter.filterType == 'country'
+    });
+
+    if(foundCountry == undefined){
+        location.innerText = "Latin America";
+    } else{
+        location.innerText = foundCountry.value;
+    }
+
+    number.innerText = hotelsArray.length;
+    if(hotelsArray.length < 1){
+        noHotelsMessage.style.display = "flex"
+        checkHotelsMessage.style.display = "none"
+    } else{
+        checkHotelsMessage.style.display = "flex"
+        noHotelsMessage.style.display = "none"
+    }
+}
+
+window.onload = () => {
+    changeText(arrayOfHotels)
+}
 
 const runFilters = () => {
     let arrayOfHotelsToModify = arrayOfHotels;
@@ -31,8 +61,13 @@ const runFilters = () => {
     filterArray.forEach(filter => {
         arrayOfHotelsToModify = filterList(filter.value, filter.filterType, arrayOfHotelsToModify)
     })
+    
+    changeText(arrayOfHotelsToModify)
+
     if(arrayOfHotelsToModify.length < 1){
-        document.getElementById("grid-message").style.display = 'block';
+        document.getElementById("grid-message").style.display = 'flex';
+    } else{
+        document.getElementById("grid-message").style.display = 'none';
     }
 }
 
@@ -115,6 +150,20 @@ const addListeners = () => {
             const selectedSize = event.target.value;
             applyFilters(selectedSize, "size")
         }
+    })
+
+    clearButton.addEventListener('click', (event) => {
+        countriesSelect.selectedIndex = 0;
+        pricesSelect.selectedIndex = 0;
+        sizesSelect.selectedIndex = 0;
+        fromInput.value = ""
+        fromInput.valueAsDate = null
+        fromInput.valueAsNumber = NaN
+        toInput.value = ""
+        toInput.valueAsDate = null
+        toInput.valueAsNumber = NaN
+        filterArray = [];
+        runFilters()
     })
 }
 
@@ -234,21 +283,11 @@ const filterList = (filter, type, startingArray) => {
             break
         case 'fromDate':
             startingArray = startingArray.filter(hotel => {
-                console.log("hotel.availabilityFrom")
-                console.log(hotel.availabilityFrom)
-                console.log("Date.parse(filter)")
-                console.log(Date.parse(filter)/1000.0)
-                console.log(hotel.availabilityFrom <= (Date.parse(filter)/1000.0))
                 return hotel.availabilityFrom <= (Date.parse(filter)/1000.0)
             })
             break
         case 'toDate':
             startingArray = startingArray.filter(hotel => {
-                console.log("hotel.availabilityTo")
-                console.log(hotel.availabilityTo)
-                console.log("Date.parse(filter)")
-                console.log(Date.parse(filter)/1000.0)
-                console.log(hotel.availabilityTo <= (Date.parse(filter)/1000.0))
                 return hotel.availabilityTo >= (Date.parse(filter)/1000.0)
             })
             break
