@@ -4,9 +4,11 @@
     --background-white: #FCFCFC;
     --country-white: #EBEBEB;
     --border-grey: #676767;
+    --header-grey: #8D8D8D;
+    --hotels-grey: #737373;
     --detail-grey: #3E3E3E;
 
-    --banner-font-size: 6rem;
+    --banner-font-size: 1.563rem;
     --input-font-size: 1.1rem;
     --country-font-size: 0.563rem;
     --title-size: 1.25rem;
@@ -38,35 +40,29 @@ body{
     width: 100%;
 }
 
-header,
-main{
-    padding-inline: 30px;
-}
-
-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.search{
     width: 100%;
-    height: 400px;
+    height: 155px;
     background-image: url('https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/01/18153702/feature-1-1600x900.jpg?tr=w-1920');
     background-position: bottom 32% right 0px;
-    padding-block: 65px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-header > .container{
+.search-container{
     /* max-width: 1510px; */
     width: 100%;
-    height: 100%;
+    height: min-content;
     position: relative;
     z-index: 1;
     display: flex;
-    flex-direction: column;
+    align-items: flex-end;
     justify-content: space-between;
+    max-width: 1284px;
 }
 
-header::before{
+.search::before{
     content: "";
     position: absolute;
     top: 0;
@@ -76,17 +72,39 @@ header::before{
     background: rgba(44, 44, 44, 0.65);
     backdrop-filter: blur(3px);
     z-index: 0;
+    width: 100vw;
 }
 
 .banner{
     font-size: var(--banner-font-size);
-    color: white;
+    color: var(--call-to-black);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 69px;
+    border: 1px solid var(--header-grey);
+}
+
+.check-hotels{
+    font-family: 'Poppins', sans-serif;
+    color: var(--call-to-black);
+    font-weight: 500;
+    font-size: 25px;
+    margin-block: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-hotels > span{
+    color: var(--hotels-grey);
 }
 
 .search{
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
@@ -146,7 +164,7 @@ header::before{
 }
 
 .card-grid{
-    /* max-width: 1510px; */
+    max-width: 1611px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4,350px);
@@ -245,5 +263,40 @@ main{
 }
 
 #grid-message{
+    margin-top: 75px;
     display: none;
+    flex-direction: column;
+    align-items: center;
+    color: var(--hotels-grey);
+    font-weight: 600;
+    font-size: 25px;
+    font-family: 'Poppins',sans-serif;
+}
+
+#grid-message > span{
+    color: var(--hotels-grey);
+    font-weight: 500;
+    font-size: 22px;
+}
+
+#grid-message > img{
+    margin-bottom: 55px;
+}
+
+#no-hotels{
+    display: none;
+}
+
+.hotelCard__ImageContainer:hover .imageContainer__HotelDescription{
+    transition: transform 0.5s ease;
+    transform: translateX(-100%);
+    height: 100%;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    padding-inline: 10px;
+    justify-content: center;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 20px;
+    text-align: center;
 }
