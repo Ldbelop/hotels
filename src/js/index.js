@@ -209,13 +209,13 @@ const fillCard = (hotel) => {
     const countryFlag = document.createElement('img')
     countryFlag.classList.add("countryContainer__Flag")
     if(hotel.country == "Argentina"){
-        countryFlag.setAttribute("src", " ./assets/argentina.svg")
+        countryFlag.setAttribute("src", "./src/assets/argentina.svg")
     } else if(hotel.country == "Brasil"){
-        countryFlag.setAttribute("src", " ./assets/brasil.svg")
+        countryFlag.setAttribute("src", "./src/assets/brasil.svg")
     } else if(hotel.country == "Chile"){
-        countryFlag.setAttribute("src", " ./assets/chile.svg")
+        countryFlag.setAttribute("src", "./src/assets/chile.svg")
     } else if(hotel.country == "Uruguay"){
-        countryFlag.setAttribute("src", " ./assets/uruguay.svg")
+        countryFlag.setAttribute("src", "./src/assets/uruguay.svg")
     }
     countryDiv.appendChild(countryFlag)
 
