@@ -22,6 +22,23 @@ const getHotelsWithAwait = async () => {
 
 await getHotelsWithAwait()
 
+const resetInputs = () => {
+    countriesSelect.selectedIndex = 0;
+    pricesSelect.selectedIndex = 0;
+    sizesSelect.selectedIndex = 0;
+    fromInput.value = ""
+    fromInput.valueAsDate = null
+    fromInput.valueAsNumber = NaN
+    toInput.value = ""
+    toInput.valueAsDate = null
+    toInput.valueAsNumber = NaN
+    filterArray = [];
+    runFilters()
+}
+
+window.onload = () => {
+    resetInputs()
+};
 const changeText = (hotelsArray) => {
     const location = document.getElementById("hotels-location")
     const number = document.getElementById("hotels-number")
@@ -153,17 +170,7 @@ const addListeners = () => {
     })
 
     clearButton.addEventListener('click', (event) => {
-        countriesSelect.selectedIndex = 0;
-        pricesSelect.selectedIndex = 0;
-        sizesSelect.selectedIndex = 0;
-        fromInput.value = ""
-        fromInput.valueAsDate = null
-        fromInput.valueAsNumber = NaN
-        toInput.value = ""
-        toInput.valueAsDate = null
-        toInput.valueAsNumber = NaN
-        filterArray = [];
-        runFilters()
+        resetInputs()
     })
 }
 
