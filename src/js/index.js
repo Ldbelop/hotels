@@ -3,7 +3,6 @@ import { getHotels } from "./getHotels.js";
 let arrayToRender;
 let arrayOfHotels;
 const cardGrid = document.querySelector(".card-grid");
-console.log(cardGrid)
 
 let countriesSelect = document.getElementById("countries");
 let fromInput = document.getElementById("from");
@@ -36,9 +35,6 @@ const resetInputs = () => {
     runFilters()
 }
 
-window.onload = () => {
-    resetInputs()
-};
 const changeText = (hotelsArray) => {
     const location = document.getElementById("hotels-location")
     const number = document.getElementById("hotels-number")
@@ -62,10 +58,6 @@ const changeText = (hotelsArray) => {
         checkHotelsMessage.style.display = "flex"
         noHotelsMessage.style.display = "none"
     }
-}
-
-window.onload = () => {
-    changeText(arrayOfHotels)
 }
 
 const runFilters = () => {
@@ -136,11 +128,6 @@ const addListeners = () => {
     })
 
     pricesSelect.addEventListener('change', (event) => {
-        console.log("event.target.value == 'ALL'")
-        console.log(event.target.value == 'ALL')
-        console.log("event.target.value")
-        console.log(event.target.value)
-        console.log("---------")
         if(event.target.value == 'ALL'){
             filterArray.forEach((filter, index) => {
                 if(filter.filterType == 'price'){
@@ -300,7 +287,6 @@ const filterList = (filter, type, startingArray) => {
             break
         case 'price':
             startingArray = startingArray.filter(hotel => {
-                console.log(filter)
                 return hotel.price == filter
             })
             break
@@ -331,3 +317,5 @@ const filterList = (filter, type, startingArray) => {
 }
 
 populateHotels()
+resetInputs()
+changeText(arrayOfHotels)
